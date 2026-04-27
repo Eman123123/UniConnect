@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Universities - UniConnect</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<style>
+  #dropdown {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    width: 250px;
+    background: white;
+    z-index: 10;
+  }
+  #dropdown button {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px;
+    width: 100%;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  #dropdown button:hover {
+    background: #d32f2f;
+  }
+  .university-card {
+    transition: transform 0.3s ease;
+  }
+  .university-card:hover {
+    transform: translateY(-5px);
+  }
+  .reminder-bell {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .reminder-bell:hover {
+    transform: scale(1.1);
+    background: white;
+  }
+  .reminder-bell.active {
+    background: #06BBCC;
+    color: white;
+  }
+  .reminder-bell i {
+    font-size: 18px;
+  }
+  .toast-reminder {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1000;
+    min-width: 250px;
+  }
+</style>
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary"><i class="fa fa-university me-3"></i>UniConnect </h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="index.html" class="nav-item nav-link">Home</a>
+                <a href="University.html" class="nav-item nav-link active">Universities</a>
+                <a href="Ranking.html" class="nav-item nav-link">Ranking</a>
+                <a href="Department.html" class="nav-item nav-link">Department</a>
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="reviews.html" class="nav-item nav-link">Review</a>
+            </div>
+            <div id="profile-container" style="display: none; position: relative; margin-left: 15px;">
+                <img src="https://www.gravatar.com/avatar/?d=mp" id="profile-icon" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" />
+                <div id="dropdown" style="display: none; position: absolute; top: 40px; right: 0; background: #fff; border: 1px solid #ccc; border-radius: 5px; padding: 10px; min-width: 180px;">
+                    <div id="user-email" style="padding: 5px 0; border-bottom: 1px solid #eee; margin-bottom: 8px;"></div>
+                    <button onclick="logout()" style="background: #06BBCC; margin-bottom: 5px;">Logout</button>
+                    <button onclick="deleteAccount()" style="background: #dc3545;">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">Universities</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Universities</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Universities Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Top Institutions</h6>
+                <h1 class="mb-5">Featured Universities</h1>
+            </div>
+            <div class="row g-4">
+                <!-- FAST University -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item bg-light rounded overflow-hidden university-card" style="position: relative;">
+                        <div class="reminder-bell" onclick="toggleReminder('FAST', event)">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <a href="university_nuces.html">
+                                <img class="img-fluid w-100" src="https://www.nu.edu.pk/Content/images/Slider/01.jpg" alt="FAST University" style="height: 250px; object-fit: cover;">
+                            </a>
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1 rounded">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">National University of Computer and Emerging Sciences</h5>
+                            <small>Lahore</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LUMS University -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item bg-light rounded overflow-hidden university-card" style="position: relative;">
+                        <div class="reminder-bell" onclick="toggleReminder('LUMS', event)">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <a href="university_LUMS.html">
+                                <img class="img-fluid w-100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBfAj1HEq86PnwKsCypBYJL66BzpMHhsOFvg&s" alt="LUMS" style="height: 250px; object-fit: cover;">
+                            </a>
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1 rounded">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">LUMS</h5>
+                            <small>Lahore</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMSATS University -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item bg-light rounded overflow-hidden university-card" style="position: relative;">
+                        <div class="reminder-bell" onclick="toggleReminder('COMSATS', event)">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <a href="university_comsats.html">
+                                <img class="img-fluid w-100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVoDhWpsViRVAyHVxfKLTJuR6WJwhy2UAqvA&s" alt="COMSATS" style="height: 250px; object-fit: cover;">
+                            </a>
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1 rounded">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">COMSATS University</h5>
+                            <small>Lahore</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GIKI University -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item bg-light rounded overflow-hidden university-card" style="position: relative;">
+                        <div class="reminder-bell" onclick="toggleReminder('GIKI', event)">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <a href="university_giki.html">
+                                <img class="img-fluid w-100" src="https://giki.edu.pk/wp-content/uploads/2019/09/10649697_710129879074987_5414857352736262169_n-700x366.jpg" alt="GIKI" style="height: 250px; object-fit: cover;">
+                            </a>
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1 rounded">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Ghulam Ishaq Khan Institute of Engineering Sciences and Technology</h5>
+                            <small>Islamabad</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UCP University -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.9s">
+                    <div class="team-item bg-light rounded overflow-hidden university-card" style="position: relative;">
+                        <div class="reminder-bell" onclick="toggleReminder('UCP', event)">
+                            <i class="far fa-bell"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <a href="university_ucp.html">
+                                <img class="img-fluid w-100" src="https://i0.wp.com/jaamiah.com/wp-content/uploads/2019/06/University-of-Central-Punjab-1.jpg" alt="UCP" style="height: 250px; object-fit: cover;">
+                            </a>
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1 rounded">
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">University of Central Punjab</h5>
+                            <small>Lahore</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Universities End -->
+    
+    <!-- Reminder Settings Modal -->
+    <div class="modal fade" id="reminderModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-bell me-2"></i>Set Deadline Reminders</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="reminderModalUniversity" class="fw-bold mb-3"></div>
+                    <div class="mb-3">
+                        <label class="form-label">Remind me before deadline:</label>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="7" id="modalReminder7days" checked>
+                                    <label class="form-check-label" for="modalReminder7days">7 days</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="3" id="modalReminder3days" checked>
+                                    <label class="form-check-label" for="modalReminder3days">3 days</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="modalReminder1day" checked>
+                                    <label class="form-check-label" for="modalReminder1day">1 day</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info small">
+                        <i class="fas fa-info-circle me-2"></i>
+                        You'll receive email reminders for admission deadlines, registration dates, and important events.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveReminderSettings()">Save Reminder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-reminder" id="reminderToast" style="display: none;">
+        <div class="toast show" role="alert">
+            <div class="toast-header bg-success text-white">
+                <i class="fas fa-bell me-2"></i>
+                <strong class="me-auto">Reminder</strong>
+                <button type="button" class="btn-close btn-close-white" onclick="closeToast()"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                Reminder saved successfully!
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Quick Link</h4>
+                    <a class="btn btn-link" href="#">About Us</a>
+                    <a class="btn btn-link" href="#">Contact Us</a>
+                    <a class="btn btn-link" href="#">Privacy Policy</a>
+                    <a class="btn btn-link" href="#">Terms & Conditions</a>
+                    <a class="btn btn-link" href="#">Support & FAQs</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Contact</h4>
+                    <p class="mb-2"><i class="fab fa-instagram me-3"></i><a class="text-light" href="https://instagram.com/yourpage" target="_blank">Follow us on Instagram</a></p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+92 300 1234567</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>support@edulink.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Gallery</h4>
+                    <div class="row g-2 pt-2">
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-1.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-1.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Newsletter</h4>
+                    <p>Subscribe to get the latest updates and resources delivered to your inbox.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">EduLink</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="#">Home</a>
+                            <a href="#">Cookies</a>
+                            <a href="#">Support</a>
+                            <a href="#">FAQs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    
+    <script>
+        let currentUniversity = '';
+        let subscribedUniversities = [];
+
+        // Show user email and enable dropdown if email is found in storage
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = localStorage.getItem("userEmail");
+            if (userEmail) {
+                document.getElementById("user-email").innerText = userEmail;
+                document.getElementById("profile-container").style.display = "inline-block";
+                loadUserReminders();
+            } else {
+                document.getElementById("profile-container").style.display = "none";
+            }
+        });
+
+        // Load user's subscribed universities
+        async function loadUserReminders() {
+            const email = localStorage.getItem('userEmail');
+            if (!email) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/get-reminders/${encodeURIComponent(email)}`);
+                const data = await response.json();
+                
+                if (data.subscribed && data.subscription.universities) {
+                    subscribedUniversities = data.subscription.universities;
+                    updateBellIcons();
+                }
+            } catch (error) {
+                console.error('Error loading reminders:', error);
+            }
+        }
+
+        // Update bell icons based on subscription status
+        function updateBellIcons() {
+            document.querySelectorAll('.reminder-bell').forEach(bell => {
+                const card = bell.closest('.university-card');
+                const universityName = getUniversityNameFromCard(card);
+                if (subscribedUniversities.includes(universityName)) {
+                    bell.classList.add('active');
+                    bell.innerHTML = '<i class="fas fa-bell"></i>';
+                } else {
+                    bell.classList.remove('active');
+                    bell.innerHTML = '<i class="far fa-bell"></i>';
+                }
+            });
+        }
+
+        // Get university name from card
+        function getUniversityNameFromCard(card) {
+            const titleElement = card.querySelector('h5');
+            if (!titleElement) return '';
+            
+            const title = titleElement.innerText;
+            if (title.includes('National University of Computer') || title.includes('FAST')) return 'FAST';
+            if (title.includes('LUMS')) return 'LUMS';
+            if (title.includes('COMSATS')) return 'COMSATS';
+            if (title.includes('Ghulam Ishaq Khan')) return 'GIKI';
+            if (title.includes('University of Central Punjab')) return 'UCP';
+            return '';
+        }
+
+        // Toggle reminder modal
+        function toggleReminder(university, event) {
+            event.stopPropagation();
+            const email = localStorage.getItem('userEmail');
+            
+            if (!email) {
+                showToast('Please login first to set reminders!', 'warning');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+                return;
+            }
+            
+            currentUniversity = university;
+            document.getElementById('reminderModalUniversity').innerHTML = 
+                `<i class="fas fa-university me-2"></i>${getFullUniversityName(university)}`;
+            
+            // Load current settings for this university
+            if (subscribedUniversities.includes(university)) {
+                document.getElementById('modalReminder7days').checked = true;
+                document.getElementById('modalReminder3days').checked = true;
+                document.getElementById('modalReminder1day').checked = true;
+            } else {
+                document.getElementById('modalReminder7days').checked = true;
+                document.getElementById('modalReminder3days').checked = true;
+                document.getElementById('modalReminder1day').checked = true;
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('reminderModal'));
+            modal.show();
+        }
+
+        // Get full university name
+        function getFullUniversityName(shortName) {
+            const names = {
+                'FAST': 'FAST National University (NUCES)',
+                'LUMS': 'Lahore University of Management Sciences',
+                'COMSATS': 'COMSATS University Islamabad',
+                'GIKI': 'Ghulam Ishaq Khan Institute',
+                'UCP': 'University of Central Punjab'
+            };
+            return names[shortName] || shortName;
+        }
+
+        // Save reminder settings
+        async function saveReminderSettings() {
+            const email = localStorage.getItem('userEmail');
+            if (!email) {
+                showToast('Please login first!', 'error');
+                return;
+            }
+            
+            const reminderDays = [];
+            if (document.getElementById('modalReminder7days').checked) reminderDays.push(7);
+            if (document.getElementById('modalReminder3days').checked) reminderDays.push(3);
+            if (document.getElementById('modalReminder1day').checked) reminderDays.push(1);
+            
+            // Add current university if not already subscribed
+            if (!subscribedUniversities.includes(currentUniversity)) {
+                subscribedUniversities.push(currentUniversity);
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/subscribe-reminders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        universities: subscribedUniversities,
+                        reminderDays: reminderDays
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    updateBellIcons();
+                    showToast(`✅ Reminders set for ${getFullUniversityName(currentUniversity)}!`, 'success');
+                    
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('reminderModal'));
+                    modal.hide();
+                } else {
+                    showToast('Failed to save reminders', 'error');
+                }
+            } catch (error) {
+                console.error('Save error:', error);
+                showToast('Error connecting to server', 'error');
+            }
+        }
+
+        // Remove university from reminders
+        async function removeUniversityReminder(university) {
+            const email = localStorage.getItem('userEmail');
+            if (!email) return;
+            
+            subscribedUniversities = subscribedUniversities.filter(u => u !== university);
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/subscribe-reminders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email, 
+                        universities: subscribedUniversities,
+                        reminderDays: [7, 3, 1]
+                    })
+                });
+                
+                if (result.success) {
+                    updateBellIcons();
+                    showToast(`Reminders removed for ${getFullUniversityName(university)}`, 'info');
+                }
+            } catch (error) {
+                console.error('Remove error:', error);
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('reminderToast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastHeader = toast.querySelector('.toast-header');
+            
+            toastMessage.innerText = message;
+            
+            if (type === 'success') {
+                toastHeader.classList.remove('bg-danger', 'bg-warning');
+                toastHeader.classList.add('bg-success');
+            } else if (type === 'error') {
+                toastHeader.classList.remove('bg-success', 'bg-warning');
+                toastHeader.classList.add('bg-danger');
+            } else {
+                toastHeader.classList.remove('bg-success', 'bg-danger');
+                toastHeader.classList.add('bg-warning');
+            }
+            
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function closeToast() {
+            document.getElementById('reminderToast').style.display = 'none';
+        }
+
+        // Toggle dropdown visibility
+        document.getElementById("profile-icon").addEventListener("click", function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById("dropdown");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#profile-container')) {
+                document.getElementById("dropdown").style.display = "none";
+            }
+        });
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem("userEmail");
+            window.location.href = "login.html";
+        }
+
+        // Delete account function
+        async function deleteAccount() {
+            const email = localStorage.getItem('userEmail');
+            if (!email) {
+                alert('No user logged in!');
+                return;
+            }
+            const password = prompt('Enter your password to confirm account deletion:');
+            if (!password) return;
+
+            if (!confirm('WARNING: This will permanently delete your account and all data. Continue?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/delete-account', {
+                    method: 'DELETE',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Account deletion failed');
+                }
+
+                const result = await response.json();
+                alert(result.message || 'Account deleted successfully');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'login.html';
+                
+            } catch (err) {
+                console.error('Deletion error:', err);
+                alert(err.message || 'Failed to connect to server. Please check your network and try again.');
+            }
+        }
+    </script>
+</body>
+</html>

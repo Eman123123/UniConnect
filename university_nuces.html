@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>FAST Academic Calendar - UniConnect </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+        .university-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.nu.edu.pk/Content/images/Slider/01.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+        }
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .calendar-table th {
+            background: #06BBCC;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .calendar-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .calendar-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+        .semester-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .semester-header {
+            background: linear-gradient(135deg, #06BBCC 0%, #0598a8 100%);
+            color: white;
+            padding: 15px 20px;
+        }
+        .loading-spinner {
+            text-align: center;
+            padding: 50px;
+        }
+        .note-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .last-updated {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            background: #06BBCC;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .refresh-btn:hover {
+            background: #0598a8;
+            transform: rotate(90deg);
+            transition: all 0.3s;
+        }
+        .event-list {
+            list-style: none;
+            padding: 0;
+        }
+        .event-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .event-date {
+            color: #06BBCC;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary"><i class="fa fa-university me-3"></i>UniConnect </h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="index.html" class="nav-item nav-link">Home</a>
+                <a href="University.html" class="nav-item nav-link">Universities</a>
+                <a href="Ranking.html" class="nav-item nav-link">Ranking</a>
+                <a href="Department.html" class="nav-item nav-link">Department</a>
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="reviews.html" class="nav-item nav-link">Review</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    
+    <!-- University Header Start -->
+    <div class="container-fluid university-header d-flex align-items-center justify-content-center mb-5">
+        <div class="container text-center">
+            <h1 class="display-3 text-white animated slideInDown">FAST National University</h1>
+            <h2 class="text-white mb-4">of Computer and Emerging Sciences</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a class="text-white" href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="University.html">Universities</a></li>
+                    <li class="breadcrumb-item text-white active" aria-current="page">Academic Calendar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- University Header End -->
+
+    <!-- About University Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="position-relative overflow-hidden h-100" style="min-height: 400px;">
+                        <img class="position-absolute w-100 h-100 pt-5 pe-5" src="img/fast.jpeg" alt="FAST Campus" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3">About University</h6>
+                    <h1 class="mb-4">Welcome to FAST-NUCES</h1>
+                    <p class="mb-4">The National University of Computer and Emerging Sciences (FAST-NUCES) is Pakistan's premier institution for computer science and technology education, established in 2000. Known for its rigorous curriculum and strong industry connections.</p>
+                    <p><i class="fa fa-check text-primary me-3"></i>Ranked #1 in Computer Science in Pakistan</p>
+                    <p><i class="fa fa-check text-primary me-3"></i>Over 11,000 students across 5 campuses</p>
+                    <p><i class="fa fa-check text-primary me-3"></i>400+ faculty members</p>
+                    <p><i class="fa fa-check text-primary me-3"></i>5 faculties offering 25+ degree programs</p>
+                    <a class="btn btn-primary py-3 px-5 mt-3" href="https://www.nu.edu.pk" target="_blank">Visit Official Website</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About University End -->
+
+    <!-- Academic Calendar Start -->
+    <div class="container-xxl py-5 bg-light">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-light text-center text-primary px-3">Academic Calendar</h6>
+                <h1 class="mb-5">Tentative Academic Schedule 2025</h1>
+            </div>
+
+            <div id="last-updated" class="last-updated"></div>
+            
+            <div id="calendar-container">
+                <div class="loading-spinner">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading calendar data...</span>
+                    </div>
+                    <p class="mt-3">Loading academic calendar...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Academic Calendar End -->
+
+    <!-- Refresh Button -->
+    <button id="refreshBtn" class="btn btn-primary refresh-btn" title="Refresh Calendar Data">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Quick Link</h4>
+                    <a class="btn btn-link" href="#">About Us</a>
+                    <a class="btn btn-link" href="#">Contact Us</a>
+                    <a class="btn btn-link" href="#">Privacy Policy</a>
+                    <a class="btn btn-link" href="#">Terms & Conditions</a>
+                    <a class="btn btn-link" href="#">Support & FAQs</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Contact</h4>
+                    <p class="mb-2"><i class="fab fa-instagram me-3"></i><a class="text-light" href="https://instagram.com/yourpage" target="_blank">Follow us on Instagram</a></p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+92 300 1234567</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>support@edulink.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Gallery</h4>
+                    <div class="row g-2 pt-2">
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-1.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/courses-1.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Newsletter</h4>
+                    <p>Subscribe to get the latest updates and resources delivered to your inbox.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">EduLink</a>, All Rights Reserved.
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="#">Home</a>
+                            <a href="#">Cookies</a>
+                            <a href="#">Support</a>
+                            <a href="#">FAQs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+    <script>
+        // Hardcoded FAST calendar data (from the official website)
+        const fastCalendarData = {
+            fall2025: {
+                'Registration': 'Aug 11 to 15 (Mon to Fri)',
+                'First Day of Classes': 'Aug 18 (Mon)',
+                'First Sessional Examinations': 'Sep 20 to 23 (Sat to Tue)',
+                'Second Sessional Examinations': 'Nov 1 to 4 (Sat to Tue)',
+                'Last Day of Classes': 'Dec 5 (Fri)',
+                'Final Examinations': 'Dec 15 to Jan 2 (Mon to Fri)',
+                'Announcement of Results': 'Jan 12 (Mon)'
+            },
+            holidays: [
+                { name: "Kashmir Day", date: "Feb 5 (Mon)" },
+                { name: "Pakistan Day", date: "Mar 23 (Sat)" },
+                { name: "Labour Day", date: "May 1 (Wed)" },
+                { name: "Eid-ul-Fitr *", date: "Apr 10 - 12 (Wed - Fri)" },
+                { name: "Eid-ul-Adha *", date: "Jun 17 - 19 (Mon - Wed)" },
+                { name: "Ashura *", date: "Jul 16 - 17 (Tue - Wed)" },
+                { name: "Independence Day", date: "Aug 14 (Wed)" },
+                { name: "Eid Meelad-un-Nabi *", date: "Sep 16 (Mon)" },
+                { name: "Quaid's Birthday", date: "Dec 25 (Wed)" }
+            ]
+        };
+
+        async function loadCalendarData() {
+            const container = document.getElementById('calendar-container');
+            
+            try {
+                // Try to fetch from database first
+                const response = await fetch('http://localhost:3000/api/calendars/FAST');
+                
+                if (response.ok) {
+                    const calendars = await response.json();
+                    
+                    if (calendars && calendars.length > 0 && calendars[0].events && calendars[0].events.length > 0) {
+                        // Use data from database
+                        const calendar = calendars[0];
+                        if (calendar.lastUpdated) {
+                            document.getElementById('last-updated').innerHTML = `<i class="fas fa-clock me-1"></i> Last updated: ${new Date(calendar.lastUpdated).toLocaleString()}`;
+                        }
+                        displayCalendarFromEvents(calendar.events);
+                        return;
+                    }
+                }
+                
+                // Fallback to hardcoded data
+                displayFallbackCalendar();
+                
+                setTimeout(function() {
+                    document.getElementById('spinner').classList.remove('show');
+                }, 500);
+                
+            } catch (error) {
+                console.error('Error loading calendar:', error);
+                displayFallbackCalendar();
+                document.getElementById('spinner').classList.remove('show');
+            }
+        }
+        
+        function displayCalendarFromEvents(events) {
+            const container = document.getElementById('calendar-container');
+            
+            let html = `
+                <div class="semester-card wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="semester-header">
+                        <h3 class="mb-0"><i class="fas fa-tree me-2"></i>Fall Semester 2025</h3>
+                    </div>
+                    <div class="p-4">
+                        <table class="calendar-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%">Event</th>
+                                    <th style="width: 60%">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            events.forEach(event => {
+                html += `
+                    <tr>
+                        <td><i class="fas fa-calendar-alt text-primary me-2"></i>${event.event}</td>
+                        <td><strong>${event.date}</strong></td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function displayFallbackCalendar() {
+            const container = document.getElementById('calendar-container');
+            
+            let html = `
+                <div class="semester-card wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="semester-header">
+                        <h3 class="mb-0"><i class="fas fa-tree me-2"></i>Fall Semester 2025</h3>
+                    </div>
+                    <div class="p-4">
+                        <table class="calendar-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%">Event</th>
+                                    <th style="width: 60%">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            for (const [event, date] of Object.entries(fastCalendarData.fall2025)) {
+                html += `
+                    <tr>
+                        <td><i class="fas fa-calendar-alt text-primary me-2"></i>${event}</td>
+                        <td><strong>${date}</strong></td>
+                    </tr>
+                `;
+            }
+            
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="semester-card wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="semester-header">
+                        <h3 class="mb-0"><i class="fas fa-sun me-2"></i>Summer Semester</h3>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-muted mb-0"><i class="fas fa-info-circle me-2"></i> Summer semester may be organized in June-July at the discretion of the campus. Only a limited number of 'taught courses' may be offered. Preference is given to final year students and then to junior batches.</p>
+                    </div>
+                </div>
+                
+                <div class="holiday-card wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="holiday-header">
+                        <h4 class="mb-0"><i class="fas fa-calendar-week me-2"></i>Expected Holidays 2025</h4>
+                    </div>
+                    <div class="p-4">
+                        <div class="row">
+                            <div class="col-md-6">
+            `;
+            
+            const midPoint = Math.ceil(fastCalendarData.holidays.length / 2);
+            for (let i = 0; i < midPoint; i++) {
+                html += `<p class="mb-2"><i class="fas fa-star text-warning me-2"></i><strong>${fastCalendarData.holidays[i].name}:</strong> ${fastCalendarData.holidays[i].date}</p>`;
+            }
+            
+            html += `</div><div class="col-md-6">`;
+            
+            for (let i = midPoint; i < fastCalendarData.holidays.length; i++) {
+                html += `<p class="mb-2"><i class="fas fa-star text-warning me-2"></i><strong>${fastCalendarData.holidays[i].name}:</strong> ${fastCalendarData.holidays[i].date}</p>`;
+            }
+            
+            html += `
+                            </div>
+                        </div>
+                        <small class="text-muted d-block mt-3"><i class="fas fa-info-circle me-1"></i> * Subject to lunar calendar</small>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+            document.getElementById('last-updated').innerHTML = `<i class="fas fa-check-circle text-success me-1"></i> Calendar loaded | Source: FAST Official Website`;
+        }
+
+        // Refresh button handler
+        document.getElementById('refreshBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('refreshBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/calendars/scrape-all');
+                const result = await response.json();
+                if (result.success) {
+                    await loadCalendarData();
+                    setTimeout(() => {
+                        alert('Calendar data refreshed successfully!');
+                    }, 500);
+                } else {
+                    alert('Failed to refresh calendar data. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error refreshing:', error);
+                alert('Failed to refresh calendar data. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+            }
+        });
+        
+        // Load calendar when page is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCalendarData();
+            setTimeout(function() {
+                document.getElementById('spinner').classList.remove('show');
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>
