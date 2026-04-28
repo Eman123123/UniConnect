@@ -46,29 +46,26 @@ npm install
 ```
 ### Step 3: Set Up Environment Variables
 Create a .env file in the backend directory:
-
 env
-# MongoDB Connection
+MongoDB Connection
 MONGODB_URI=mongodb://localhost:27017/uniconnect
-# OR for MongoDB Atlas:
-# MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/uniconnect
-
-# Email Configuration (for reminders)
+OR for MongoDB Atlas:
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/uniconnect
+Email Configuration (for reminders)
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=your-app-password
-
-# Server Port
+Server Port
 PORT=3000
 
 ### Step 4: Start MongoDB
-bash
-# If using local MongoDB
+```bash
+If using local MongoDB
 mongod
-
-# OR ensure MongoDB Atlas is running
+```
 ### Step 5: Run the Application
-bash
+```bash
 node app.js
+```
 The server will start at: http://localhost:3000
 
 
