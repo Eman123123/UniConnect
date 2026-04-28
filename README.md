@@ -1,4 +1,3 @@
-# UniConnect
 # 🎓 UniConnect - University Academic Calendar & Reminder System
 
 UniConnect is a comprehensive web platform that helps students track academic calendars, deadlines, and events across multiple Pakistani universities. The system automatically scrapes academic calendar data from university websites and sends email reminders for important deadlines.
