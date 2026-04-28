@@ -58,8 +58,8 @@ Server Port
 PORT=3000
 
 ### Step 4: Start MongoDB
-```bash
 If using local MongoDB
+```bash
 mongod
 ```
 ### Step 5: Run the Application
